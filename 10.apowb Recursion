@@ -1,0 +1,15 @@
+#include<iostream>
+using namespace std;
+int apowb(int a, int b){
+    // base case
+    if(b==0){
+        return 1;
+    }
+    int ans= a*apowb(a,b-1);
+    return ans;
+}
+int main()
+{
+    cout<<apowb(3,4);
+    return 0;
+}
