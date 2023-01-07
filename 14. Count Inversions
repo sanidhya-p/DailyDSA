@@ -1,0 +1,80 @@
+#include<iostream>
+using namespace std;
+long long merge(int arr[],int s, int e){
+    int mid= (s+e)/2;
+    
+    
+    int len1= mid-s+1;
+    int len2= e-mid;
+
+    int *first= new int[len1];
+    int *second= new int[len2];
+
+    int mainArrayIndex=s;
+    for (int  i = 0; i < len1; i++)
+    {
+
+        first[i]=arr[mainArrayIndex++];
+    }
+    mainArrayIndex=mid+1;
+    for (int  i = 0; i < len2; i++)
+    {
+        second[i]=arr[mainArrayIndex++];
+    }
+
+    int firstindex =0;
+    int secondindex=0;
+    mainArrayIndex=s;
+    long long countinv=0;
+    while (firstindex<len1 && secondindex<len2)
+    {
+        if (first[firstindex]>second[secondindex])
+        {
+            countinv+=len1-firstindex;
+            arr[mainArrayIndex++]=second[secondindex++];
+        }
+        else{
+            arr[mainArrayIndex++]=first[firstindex++];
+        }
+        
+    }
+    while (firstindex<len1)
+    {
+        arr[mainArrayIndex++]=first[firstindex++];
+    }
+    while (secondindex<len2)
+    {
+        arr[mainArrayIndex++]=second[secondindex++];
+    }
+    delete[]first;
+    delete[]second; 
+    return countinv;
+}
+
+long long mergesort(int arr[], int s, int e){
+    //  base case
+    if (s>=e)
+    {
+        return 0;
+    }
+    int mid= s+(e-s)/2;
+    // sorting left part
+    long long countinv =0;
+    countinv += mergesort(arr,s,mid);
+    // sorting right part
+    countinv += mergesort(arr,mid+1,e);
+
+    countinv+= merge(arr,s,e);
+    return countinv;
+}
+int main()
+{
+    int arr[5]={2, 5, 1, 3, 4};
+    cout<<mergesort(arr,0,4)<<endl;
+    for (int i = 0; i < 5; i++)
+    {
+        cout<<arr[i]<<" ";
+    }cout<<endl;
+    
+    return 0;
+}
