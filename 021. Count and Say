@@ -1,0 +1,35 @@
+class Solution {
+public:
+    string Solve(string str){
+        int len=str.length();
+        string ans="";
+        for(int i=0;i<len;i++){
+            int count=1;
+            int j=i+1;
+            for(;j<len;j++){
+                if(str[i]==str[j]){
+                    count++;
+                }
+                else{
+                    break;
+                }
+            }
+            ans+=to_string(count);
+            ans+=str[i];
+            i=j-1;
+        }
+        return ans;
+
+
+
+    }
+    string countAndSay(int n) {
+        if(n==1){
+            return "1";
+        }
+        string ans="";
+        ans=Solve(countAndSay(n-1));
+
+        return ans;
+    }
+};
