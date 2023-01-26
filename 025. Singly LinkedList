@@ -1,0 +1,140 @@
+#include <iostream>
+using namespace std;
+class Node
+{
+public:
+    int data;
+    Node *next;
+    Node(int data)
+    {
+        this->data = data;
+        this->next = NULL;
+    }
+    // destructor
+    ~Node()
+    {
+        int value = this->data;
+        if (this->next != NULL)
+        {
+            delete next;
+            this->next = NULL;
+        }
+        cout << "Memory is free for data " << value << endl;
+    }
+};
+void insertathead(Node *&head, int d)
+{
+    Node *temp = new Node(d);
+    temp->next = head;
+    head = temp;
+}
+void insertatTail(Node *&tail, int d)
+{
+    Node *temp = new Node(d);
+    tail->next = temp;
+    tail = temp;
+}
+void insertinMiddle(Node *&head, int pos, int d, Node *&tail)
+{
+    if (pos == 1)
+    {
+        insertathead(head, d);
+        return;
+    }
+
+    Node *temp = head;
+    int cnt = 1;
+    while (cnt < pos - 1)
+    {
+        temp = temp->next;
+        cnt++;
+    }
+    Node *Newmidnode = new Node(d);
+    Newmidnode->next = temp->next;
+    temp->next = Newmidnode;
+    if (temp->next->next == NULL)
+    {
+
+        insertatTail(tail, d);
+        return;
+    }
+}
+void deleteNode(Node *&head, int pos, Node *&tail)
+{
+
+    if (pos == 1)
+    {
+        Node *temp = head;
+        head = temp->next;
+        temp->next = NULL;
+        delete temp;
+    }
+    else
+    {
+        Node *curr = head;
+        Node *prev = NULL;
+
+        int count = 1;
+        while (count < pos)
+        {
+            prev = curr;
+            curr = curr->next;
+            count++;
+        }
+
+        prev->next = curr->next;
+        curr->next = NULL;
+        if (prev->next == NULL)
+        {
+            tail = prev;
+        }
+        delete curr;
+    }
+}
+void print(Node *&head)
+{
+    Node *temp = head;
+    while (temp != NULL)
+    {
+        cout << temp->data << " ";
+        temp = temp->next;
+    }
+    cout << endl;
+}
+
+int main()
+{
+    Node *N1 = new Node(10);
+    // cout<<N1->data<<endl;
+    // cout<<N1->next<<endl;
+    Node *head = N1;
+    Node *tail = N1;
+    print(head);
+    insertathead(head, 12);
+    print(head);
+    insertatTail(tail, 50);
+    print(head);
+    // cout<<tail->data;
+    insertinMiddle(head, 2, 32, tail);
+    print(head);
+
+    insertinMiddle(head, 3, 4, tail);
+    print(head);
+    insertinMiddle(head, 6, 94, tail);
+    print(head);
+    insertinMiddle(head, 1, 19, tail);
+    print(head);
+    cout<<endl<<"Tail is "<<tail->data<<endl;
+    // deleteNode(head,1);
+    // print(head);
+    deleteNode(head, 5, tail);
+    print(head);
+    deleteNode(head, 1, tail);
+    print(head);
+    deleteNode(head, 2, tail);
+    print(head);
+    cout<<"Tail is "<<tail->data<<endl;
+    insertatTail(tail, 150);
+    print(head);
+    return 0;
+}
