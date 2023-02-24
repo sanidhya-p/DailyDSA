@@ -1,0 +1,24 @@
+void solve(stack<int> &stack, int x){
+    if(stack.empty()){
+        stack.push(x);
+        return;
+    }
+    int ch=stack.top();
+    stack.pop();
+
+    solve(stack,x);
+    stack.push(ch);
+}
+
+
+void reverseStack(stack<int> &stack) {
+    if(stack.empty()){
+        return;
+    }
+    int num=stack.top();
+    stack.pop();
+
+    reverseStack(stack);
+
+    solve(stack, num);
+}
